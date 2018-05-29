@@ -34,15 +34,16 @@ def parseFile(filename):
         if line.strip() in SKILLS:
             # print('NEW SKILL BEGINS: %s' % line)
             currentSkill = line
-        if line.startswith('Cost:'):
+        elif len(lines) > i+1 and lines[i+1].startswith('Cost:'):
             if currentCharm:
                 currentCharm['description'] = ' '.join(currentCharm['description'])
                 charms.append(currentCharm)
-                # pprint(currentCharm)
             currentCharm = {'description': []}
-            currentCharm['name'] = lines[i-1]  
-            currentCharm['cost'] = parseCost(line)
+            currentCharm['name'] = line
             currentCharm['skill'] = currentSkill
+        elif line.startswith('Cost:'):
+            print(line)
+            currentCharm['cost'] = parseCost(line)
         elif line.startswith('Mins:'):
             currentCharm['mins'] = parseMins(line)
         elif line.startswith('Type:'):
